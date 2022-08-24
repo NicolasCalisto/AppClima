@@ -1,89 +1,116 @@
-const app = document.querySelector('.clima-app');
-const temperatura = document.querySelector('.temperatura');
-const dataOutput = document.querySelector('.data');
-const horaOutput = document.querySelector('.hora');
-const condicaoOutput = document.querySelector('.condicao');
-const nomeOutput = document.querySelector('.nome');
-const icone = document.querySelector('.icone');
-const nuvemOutput = document.querySelector('.nuvem');
-const humidadeOutput = document.querySelector('.humidade');
-const ventoOutput = document.querySelector('.vento');
-const form = document.getElementById('.localInput');
-const pesquisa = document.querySelector('.pesquisa');
-const btn = document.querySelector('.submit');
-const cidades = document.querySelectorAll('.cidade');
+async function searchForNewPlace() {
+await fetch(
+    `https://api.weatherapi.com/v1/forecast.json?key=ab19d928ad6f4d12ab013014222408&q=${
+    newLocation.value.trim() === "" ? "Recife" : newLocation.value.trim()
+    }&days=7&aqi=yes&alerts=yes`
+)
+    .then((data) => data.json())
+    .then((allInfo) => weatherInfo(allInfo))
+    .catch((error) => console.log("A small error has ocurred.", error));
+}
 
-let localInput = "Recife";
+searchForNewPlace();
 
-cidades.forEach((cidade) => {
-    cidade.addEventListener('click', (e) => {
-        localInput = e.target.innerHTML;
-        fetchWeatherData();
-        
-        app.style.opacity = "0";
-    });
-})
+localInput.addEventListener("submit", prDefault);
 
-form.addEventListener('submit', (e) => {
-    if(pesquisa.ariaValueMax.length == 0) {
-        alert('Escreva o nome de uma cidade');
-    } else {
-        localInput = pesquisa.value;
-        fetchWeatherData();
-        pesquisa.value = "";
-        app.style.opacity = "0";
-    }
+async function prDefault(e) {
+e.preventDefault();
+await fetch(
+    `https://api.weatherapi.com/v1/forecast.json?key=644f6ce0ca9e401ebb891832211707&q=${
+    newLocation.value.trim() === "" ? "Recife" : newLocation.value.trim()
+    }&days=7&aqi=yes&alerts=yes`
+)
+    .then((data) => data.json())
+    .then((allInfo) => weatherInfo(allInfo))
+    .catch((error) => console.log("A small error has ocurred.", error));
+newLocation.value = "";
+}
 
-    e.preventDefault();
-});
-
-function diaDaSemana(dia, mes, ano) {
-    const dia = [
-        "Domingo",
-        "Segunda",
-        "Terça",
-        "Quarta",
-        "Quinta",
-        "Sexta",
-        "Sábado",
+let weatherInfo = (allInfo) => {
+    // Date
+  
+    var meses = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
     ];
-    return dia[new Date(`${dia}/${mes}/${ano}`).getDay()];
-}
+  
+    
+    let crDate = allInfo.current.last_updated;
+  
+    let dayIndex = new Date(
+      `${
+        meses[parseInt(crDate.slice(5, 7) - 1)]
+      } ${allInfo.current.last_updated.slice(8, 10)}, ${crDate.slice(
+        0,
+        4
+      )} ${crDate.slice(-5)}`
+    );
+  
+    var dayIndexName = dayIndex.toString().slice(0, 3).trim();
+    
+    // Day name
+  
+    switch (dayIndexName) {
+      case "Mon":
+        dayTime.innerText = "Segunda";
+        break;
+      case "Tue":
+        dayTime.innerText = "Terça";
+        break;
+      case "Wed":
+        dayTime.innerText = "Quarta";
+        break;
+      case "Thu":
+        dayTime.innerText = "Quinta";
+        break;
+      case "Fri":
+        dayTime.innerText = "Sexta";
+        break;
+      case "Sat":
+        dayTime.innerText = "Sábado";
+        break;
+      case "Sun":
+        dayTime.innerText = "Domingo";
+        break;
+      default:
+        dayTime.innerText = "";
+    }
+  
+    dataAtual.innerText = 
+      `${crDate.slice(8, 10)} ${
+        meses[parseInt(crDate.slice(5, 7) - 1)]} ${
+          crDate.slice(0, 4)}`;
+      nomeCidade.innerText = `${allInfo.location.name}, ${allInfo.location.country}`;
+   
+  
+    // // icons
+  
+    mainIcon.setAttribute("src", `${allInfo.current.condition.icon}`);
+  
+    // temperature
+  
+    temperatura.innerText = allInfo.current.temp_c + "°C";
+    // let iconData = allInfo.current.condition.text;
+    //weatherCondition.innerText = iconData; // descrição do tempo
+  
+    // pressure & humidity & wind
+  
+    pressao.innerText = allInfo.current.pressure_mb + " hPa";
+    humidade.innerText = allInfo.current.humidity + " %";
+    vento.innerText = allInfo.current.wind_kph + " km/h";
+  
+    //hora
 
-function fetchWeatherData() {
-    fetch(`http://api.weatherapi.com/v1current.json?key=ab19d928ad6f4d12ab013014222408=${localInput}`)
-    .then(response => response.json())
-    .then(data => {
-        console.log("teste", data)
-        temperatura.innerHTML = data.current.temp_c + "&#176;";
-        condicaoOutput.innerHTML = data.current.condicao.text;
-        const data = data.location.localtime;
-        const y = parseInt(data.substr(0, 4));
-        const m = parseInt(data.substr(5, 2));
-        const d = parseInt(data.substr(8, 2));
-        const hora = data.substr(11);
+    // hora.innerText = allInfo.current.last_updated;
 
-        dataOutput.innerHTML = `${diaDaSemana(d, m, y)} ${d}, ${m}, ${y}`
-        horaOutput.innerHTML = hora;
-        nomeOutput.innerHTML = data.location.name;
-
-        const iconeId = data.current.condicao.icone.substr("//cnd.weatherapi.com/weather/64x64/".length);
-        icone.src = "./img/" + iconeId;
-
-        nuvemOutput.innerHTML = data.current.cloud + "%";
-        humidadeOutput.innerHTML = data.current.humidity + "%";
-        ventoOutput.innerHTML = data.current.wind_kph + "km/h"
-
-        let horaDoDia = "dia";
-        const code = data.current.condicao.code;
-
-        if(!data.current.is_day) {
-            horaDoDia = "noite";
-        }
-
-        if(code == 1000) {
-            app.style.backgroundImage = `url(./img/${horaDoDia}/moon.jpg)`
-            btn.style.background = "#e5ba92";
-        }
-    })
-}
+  };

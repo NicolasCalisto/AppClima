@@ -18,25 +18,31 @@
 <body>
     <div class="clima-app">
         <div class="container">
-            <h3 class="titulo"> Clima</h3>
-            <div>
-                <h1 class="temperatura">16&#176</h1>
-                <div class="cidade-tempo">
-                    <h1 class="nome">Recife</h1>
-                    <small>
-                        <span class="hora">18:36 - </span>
-                        <span class="data"> Terça, 23 de Agosto</span>
-                    </small>
-                </div>
+            <div class="clima-box">
+                <h3 class="titulo">Clima</h3>
                 <div class="clima">
-                    <img src="./img/sol.png" alt="icone" class="icone" width="50" height="50"/>
-                    <span class="condicao"> Ensolarado</span>
+                    <img src="" alt="icone" id="mainIcon" class="icone" width="80" height="80"/>
+                    <!-- <span id="weatherCondition"></span> -->
+                </div>
+
+            </div>
+            <div>
+                <h1 class="temperatura" id="temperatura">16&#176</h1>
+                <div class="cidade-tempo">
+                    <h1 class="nome" id="nomeCidade"></h1>
+                    <small>
+                        <span class="hora" id="hora"></span>
+                        <span class="data">
+                            <h2 id="dayTime"></h2>
+                            <p id="dataAtual"></p>
+                        </span>
+                    </small>
                 </div>
             </div>
         </div>
         <div class="panel">
-            <form id="localInput">
-                <input type="text" class="pesquisa" placeholder="Pesquisar Cidade ">
+            <form id="localInput" type=""submit>
+                <input type="text" class="pesquisa" id="newLocation" placeholder="Pesquisar Cidade ">
                 <button type="submit" class="submit">
                     <i class="fad fa-search"> wtf</i>
                 </button>
@@ -52,16 +58,16 @@
             <ul class="detalhes">
                 <h4>Detalhes do Clima</h4>
                 <li>
-                    <span>Nublado</span>
-                    <span class="nuvem">85%</span>
+                    <span>Pressão</span>
+                    <span class="nuvem" id="pressao"></span>
                 </li>
                 <li>
                     <span>Humidade</span>
-                    <span class="humidade">54%</span>
+                    <span class="humidade" id="humidade"></span>
                 </li>
                 <li>
                     <span>Vento</span>
-                    <span class="vento">5km/h</span>
+                    <span class="vento" id="vento"></span>
                 </li>
             </ul>
         </div>
