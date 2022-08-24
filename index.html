@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300&family=Oxanium:wght@300&display=swap" rel="stylesheet">  
+
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+
+    <script defer src="./app.js"></script>
+    
+</head>
+<body>
+    <div class="clima-app">
+        <div class="container">
+            <h3 class="titulo"> Clima</h3>
+            <div>
+                <h1 class="temperatura">16&#176</h1>
+                <div class="cidade-tempo">
+                    <h1 class="nome">Recife</h1>
+                    <small>
+                        <span class="hora">18:36 - </span>
+                        <span class="data"> Terça, 23 de Agosto</span>
+                    </small>
+                </div>
+                <div class="clima">
+                    <img src="./img/sol.png" alt="icone" class="icone" width="50" height="50"/>
+                    <span class="condicao"> Ensolarado</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <form id="localInput">
+                <input type="text" class="pesquisa" placeholder="Pesquisar Cidade ">
+                <button type="submit" class="submit">
+                    <i class="fad fa-search"> wtf</i>
+                </button>
+            </form>
+
+            <ul class="cidades">
+                <li class="cidade">Recife</li>
+                <li class="cidade">Olinda</li>
+                <li class="cidade">Caruaru</li>
+                <li class="cidade">Jaboatão</li>
+                <li class="cidade">Paulista</li>
+            </ul>
+            <ul class="detalhes">
+                <h4>Detalhes do Clima</h4>
+                <li>
+                    <span>Nublado</span>
+                    <span class="nuvem">85%</span>
+                </li>
+                <li>
+                    <span>Humidade</span>
+                    <span class="humidade">54%</span>
+                </li>
+                <li>
+                    <span>Vento</span>
+                    <span class="vento">5km/h</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
